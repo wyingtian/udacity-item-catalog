@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">	
+	<title>Catalog App</title>
+	<link rel=stylesheet type=text/css href="{{ url_for('static', filename='header-basic.css') }}">
+	<link rel=stylesheet type=text/css href="{{ url_for('static', filename='footer-basic-centered.css') }}">
+	<link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
+	<link href='http://fonts.googleapis.com/css?family=Cookie' rel='stylesheet' type='text/css'>
+	</head>
+
+
+	<body>
+	<header class="header-basic">
+
+		<div class="header-limiter">
+
+			<h1><a href="#">Catalog App</a></h1>
+
+			<nav>
+				<a href="#" class="selected">Login</a>
+			</nav>
+		</div>
+
+	</header>
+
+	<div class = 'pane'>
+		<div class = 'header'>
+		<h1>{{ restaurant.name }}</h1>
+	</div>
+
+	<a href = '{{url_for('newMenuItem', restaurant_id = restaurant.id) }}'>Create New Item</a>
+
+
+<div class = 'flash'>
+		      {% with messages = get_flashed_messages() %}
+      {% if messages %}
+
+        <ul>
+        {% for message in messages %}
+            <li> <strong> {{ message }} </strong> </li>
+        {% endfor %}
+        </ul>
+        {% endif %}
+    {% endwith %}
+
+</div>
+
+
+		{% for i in items %}
+    <div class = 'nameAndPrice'>
+		<span class = 'name'><p>{{i.name}}</p></span>
+
+		<span class = 'price'>
+
+
+		<p>{{i.price}} </p>
+	</span>
+	</div>
+
+
+
+	<div class = 'description'>
+		<p>{{i.description}}</p>
+	</div>
+
+
+
+	<div class = "editdeletepane">
+
+	<a href='{{url_for('editMenuItem',restaurant_id = restaurant.id, menu_id=i.id)}}' >Edit</a>
+	<a href='{{url_for('deleteMenuItem', restaurant_id = restaurant.id, menu_id=i.id)}}' >
+	Delete</a>
+	</div>
+
+
+
+
+		{% endfor %}
+
+
+
+
+
+</div>
+</div>
+
+		<footer class="footer-basic-centered">
+
+			<p class="footer-links">
+				<a href="index.html">Home &nbsp; &nbsp; &nbsp;</a> 
+				<a href="http://www.yingtian.me">About</a>
+			</p>
+
+			<p class="footer-company-name">Company Name &copy; 2015</p>
+
+		</footer>
+	</body>
+
+
+
+
+</html>
