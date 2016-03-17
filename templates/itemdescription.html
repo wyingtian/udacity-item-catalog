@@ -1,0 +1,36 @@
+<!-- This is the description page with one movie item -->
+{% extends "layout.html" %}
+
+{% block content %}
+    <br>
+    <a class="btn btn-default" href = "{{ url_for('MovieTypes', movie_type_name=item.movie_type_name)}}"> back </a>
+    <div class='row'>
+        <div class='col-md-12'>
+            <h1 class='text-center'>{{item.name}}</h1>
+            <p><strong>Owner </strong> : {{item.user.email}}</p>
+            <p>{{ item.description}}</p>
+            <!-- if logged in show edit or delete option, no button for non-logged in user-->
+            {% if loginAs %}
+                <a class="btn btn-default" href="/movieCatagory/{{item.movie_type_name}}/{{item.name}}/edit">edit</a>
+                <br>
+                <br>
+                <form action="{{url_for('deleteMovieItem',movie_type_name=item.movie_type_name,movie_item_name=item.name)}}" method="POST">
+                    <input class="btn btn-default" type="submit" value="delete">
+                </form>
+            {% endif %}
+        </div>
+    </div>
+
+    <!--MESSAGE FLASHING -->
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+
+    <ul class="list-group">
+        {% for message in messages %}
+            <li class="list-group-item list-group-item-danger"><strong>{{message}}</strong></li>
+        {% endfor %}
+    </ul>
+
+    {% endif %}
+    {% endwith %}
+{% endblock %}

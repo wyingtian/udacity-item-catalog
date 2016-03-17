@@ -1,6 +1,5 @@
-<!-- This shows movie types one the left and newest added item on the right -->
+<!-- This shows the list of movie items with one type -->
 {% extends "layout.html" %}
-
 {% block content %}
     <!--MESSAGE FLASHING -->
     {% with messages = get_flashed_messages() %}
@@ -16,7 +15,7 @@
     {% endwith %}
     <div class='container'>
         <div class='row'>
-           <!-- The movie catagories  -->
+            <!-- The list of movie types -->
             <div class='col-md-6'>
                 <h1>Movie Genres</h1>
                 {% if movieTypes %}
@@ -24,21 +23,24 @@
                     {% for i in movieTypes %}
                         <li class="list-group-item"><a href="/movieCatagory/{{i.name}}">{{i.name}} </a></li>
                     {% endfor %}
-                </ul>
-                {% endif %}
-            </div>
-            <!-- The list of  latest movies -->
-            <div class='col-md-6'>
-                <h1>Latest Movies</h1>
-                <a class="btn btn-default" href="/movieCatagory/Action/new">Add New Movie</a>
-                {% if newItems %}
-                    <ul class="list-group">
-                    {% for i in newItems %}
-                        <li class="list-group-item"><a href="/movieCatagory/{{i.movie_type_name}}/{{i.name}}">{{i.name}} </a></li>
-                    {% endfor %}
                     </ul>
                 {% endif %}
             </div>
+            <!-- The list of movie items for one type -->
+            <div class='col-md-6'>
+                <h1>{{ movieTypeName }}</h1>
+                <a class="btn btn-default" href="/movieCatagory/{{movieTypeName}}/new">Add New {{movieTypeName}} Movie</a>
+                    {% if items %}
+                    <ul class="list-group">
+                        {% for i in items %}
+                            <li class="list-group-item" ><a href="/movieCatagory/{{i.movie_type_name}}/{{i.name}}">{{i.name }}<a> </l>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+            </div>
         </div>
     </div>
+
+
+
 {% endblock %}

@@ -1,0 +1,39 @@
+<!-- This page provides the form to edit movie item -->
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="row">
+
+    <h1 class="text-center">{{item.name}}</h1>
+    <p>creator:{{item.user.email}}</p>
+    <p>{{item.description}}</p>
+
+    <form action="{{url_for('editMovieItem',movie_type_name=movie_type_name,movie_item_name=movie_item_name)}}" method="POST">
+        <div class="form-group">
+            <label for="edit_movie_name">New Movie Name:</label>
+            <input type="text" name="name" class="form-control" value="{{item.name}}" id="edit_movie_name"></input>
+        </div>
+        <div class="from-group">
+            <label for="edit_movie_description">New Movie Description:</label>
+            <input type="text" name="description" class="form-control" id="edit_movie_description"></input>
+        </div>
+        <br>
+        <input class="btn btn-default" type="submit">
+    </form>
+        <br>
+        <a class="btn btn-default" href="{{ url_for('MovieItems', movie_type_name=movie_type_name,movie_item_name=movie_item_name) }}">back</a>
+</div>
+
+    <!--MESSAGE FLASHING -->
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+
+    <ul class="list-group">
+        {% for message in messages %}
+            <li class="list-group-item list-group-item-danger"><strong>{{message}}</strong></li>
+        {% endfor %}
+    </ul>
+
+    {% endif %}
+    {% endwith %}
+{% endblock %}

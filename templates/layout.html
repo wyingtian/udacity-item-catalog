@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">    
+    <title>Catalog App</title>
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='header-basic.css') }}">
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='footer-basic-centered.css') }}">
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
+    <link href='http://fonts.googleapis.com/css?family=Cookie' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    
+    </head>
+    <body>
+
+    <!-- *****************The header goes here *****************-->
+    <!-- if logged in, show the login name in the header -->
+    <header class="header-basic">
+
+        <div class="header-limiter">
+            <h1><a href="/">Movie App</a></h1>
+            <nav>
+                <a href="/login" >Login</a>
+                {% if loginAs %}
+                <a>as {{loginAs}}</a>
+                <a href="{{url_for('gdisconnect')}}">LogOut</a>
+                {% else %}
+                {% endif %}
+            </nav>
+        </div>
+    </header>
+
+    <!-- *****************The content goes here *****************-->
+   
+    <div class='container'>
+        {% block content %}
+        {% endblock %}
+    </div>
+    <!-- *****************The footer here *****************-->
+
+    <footer class="footer-basic-centered">
+        <p class="footer-links">
+            <a href="/">Home &nbsp; &nbsp; &nbsp;</a> 
+            <a href="http://www.yingtian.me">About</a>
+        </p>
+        <p class="footer-company-name">Ying &copy; 2015</p>
+
+    </footer>
+    </body>
+{% block script %}{% endblock %}
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+</html>

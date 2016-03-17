@@ -1,0 +1,69 @@
+<!-- The login page with google sign-in button -->
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="row">
+    <br><br><br>
+    <div class="text-center" id="signInButton">
+        <span class="g-signin"
+            data-scope="openid email"
+            data-clientid="329284700133-3n15jbuji9750eo9cfcp04bgcj57n7oc.apps.googleusercontent.com"
+            data-redirecturi="postmessage"
+            data-accesstype="offline"
+            data-cookiepolicy="single_host_origin"
+            data-callback="signInCallback"
+            data-approvalprompt="force">
+        </span>
+    </div>
+    <br>
+    <div class="text-center"><p>If the page doesn't redirect, click <a href="/">here to the home page</a></p></div>
+    <div id=result"">
+        <!--MESSAGE FLASHING -->
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+
+        <ul class="list-group">
+            {% for message in messages %}
+                <li class="list-group-item list-group-item-danger"><strong>{{message}}</strong></li>
+            {% endfor %}
+        </ul>
+
+        {% endif %}
+        {% endwith %}
+    </div>
+</div>
+    <script>
+        function signInCallback(authResult) {
+            if (authResult['code']) {
+                // Hide the sign-in button now that the user is authorized
+                $('#signinButton').attr('style', 'display: none');
+                // Send the one-time-use code to the server, if the server responds, write a 'login successful' message to the web page and then redirect back to the main restaurants page
+                $.ajax({
+                    type: 'POST',
+                    url: '/gconnect?state={{STATE}}',
+                    processData: false,
+                    data: authResult['code'],
+                    contentType: 'application/octet-stream; charset=utf-8',
+                    success: function(result) {
+                        // Handle or verify the server response if necessary.
+                        if (result) {
+                            $('#result').html('Login Successful!</br>'+ result + '</br>Redirecting...')
+                            setTimeout(function() {
+                            window.location.href = "/";
+                            }, 4000);
+                        }else if (authResult['error']) {
+                            console.log('There was an error: ' + authResult['error']);
+                        }else {
+                            $('#result').html('Failed to make a server-side call. Check your configuration and console.');
+                        }
+                    }
+                }); 
+            } 
+        }
+        </script>
+
+{% endblock %}
+
+{% block script %}
+    <script src="//apis.google.com/js/platform.js?onload=start"> </script>
+{% endblock %}
